@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import myQuestions from './questions';
 
+import { Tip } from './styles';
+
 function App() {
   const [gameState, setGameState] = useState({
     player1: { name: '', points: 0 },
@@ -10,9 +12,12 @@ function App() {
     chat: { points: 0 },
   });
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [start, setStart] = useState(false);
   const [questions, setQuestions] = useState(myQuestions);
+  const [currentQuestion, setCurrentQuestion] = useState({});
+  const [currentTip, setCurrentTip] = useState(0);
 
   function handleSetPlayers({ player1, player2 }) {
     const newGameState = { ...gameState };
@@ -23,14 +28,54 @@ function App() {
   }
 
   function handleNewQuestion(question) {
-    console.log(question);
-    const { player1, player2 } = gameState;
-    console.log(player1);
-    console.log(player2);
+    setCurrentQuestion(question);
     setIsPlaying(true);
   }
 
   function handleGoBackToQuestions() {
+    setIsPlayerOneTurn(!isPlayerOneTurn);
+    setIsPlaying(false);
+  }
+
+  function handleNextTip() {
+    const newCurrentTip = currentTip + 1;
+    setCurrentTip(newCurrentTip);
+  }
+
+  function handleWinner(points) {
+    const newGameState = { ...gameState };
+    console.log(currentTip);
+    switch (currentTip) {
+      case 1:
+        if (isPlayerOneTurn) {
+          //dois
+          newGameState.player2.points += points;
+        } else {
+          //um
+          newGameState.player1.points += points;
+        }
+        break;
+
+      case 0:
+      case 2:
+        if (isPlayerOneTurn) {
+          //um
+          newGameState.player1.points += points;
+        } else {
+          //dois
+          newGameState.player2.points += points;
+        }
+        break;
+
+      default:
+        newGameState.chat.points += points;
+        break;
+    }
+
+    setGameState(newGameState);
+    //destativar a questão
+    setCurrentTip(0);
+    setIsPlayerOneTurn(!isPlayerOneTurn);
     setIsPlaying(false);
   }
 
@@ -51,9 +96,37 @@ function App() {
     <>
       {isPlaying ? (
         <div>
-          <h1>a</h1>
+          <h1>Questão mama</h1>
+          <p>
+            Vez de{' '}
+            {isPlayerOneTurn ? gameState.player1.name : gameState.player2.name}
+          </p>
+          <Tip>
+            <span>{currentQuestion.first}</span>
+            <button onClick={() => handleWinner(10)}>setWin</button>
+            <button onClick={handleNextTip}>next</button>
+          </Tip>
+
+          {currentTip >= 1 && (
+            <Tip>
+              <span>{currentQuestion.second}</span>
+              <button onClick={() => handleWinner(9)}>setWin</button>
+              <button onClick={handleNextTip}>next</button>
+            </Tip>
+          )}
+          {currentTip >= 2 && (
+            <Tip>
+              <span>{currentQuestion.third}</span>
+              <button onClick={() => handleWinner(8)}>setWin</button>
+              <button onClick={handleNextTip}>next</button>
+            </Tip>
+          )}
+          {currentTip >= 3 && (
+            <button onClick={() => handleWinner(10)}>setWinChat</button>
+          )}
+
           <button type="button" onClick={handleGoBackToQuestions}>
-            back
+            Voltar
           </button>
         </div>
       ) : (
@@ -63,6 +136,13 @@ function App() {
           </div>
         ))
       )}
+      <p>
+        {gameState.player1.name} - {gameState.player1.points}
+      </p>
+      <p>
+        {gameState.player2.name} - {gameState.player2.points}
+      </p>
+      <p>Chat - {gameState.chat.points}</p>
     </>
   );
 }
