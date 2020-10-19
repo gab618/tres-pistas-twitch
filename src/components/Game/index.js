@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import myQuestions from '../../questions';
 
-import { Container, Tip } from './styles';
+import { Container, Tip, StartContent, PlayerBox } from './styles';
+import StartHeader from '../StartHeader';
 
 function Game() {
   const [gameState, setGameState] = useState({
-    player1: { name: '', points: 0 },
-    player2: { name: '', points: 0 },
+    player1: { name: '', avatar: '', points: 0 },
+    player2: { name: '', avatar: '', points: 0 },
     chat: { points: 0 },
   });
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
@@ -20,10 +21,12 @@ function Game() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentTip, setCurrentTip] = useState(0);
 
-  function handleSetPlayers({ player1, player2 }) {
+  function handleSetPlayers({ player1, player2, avatar1, avatar2 }) {
     const newGameState = gameState;
     newGameState.player1.name = player1;
     newGameState.player2.name = player2;
+    newGameState.player1.avatar = avatar1;
+    newGameState.player2.avatar = avatar2;
     setGameState(newGameState);
     setStart(true);
   }
@@ -91,10 +94,21 @@ function Game() {
   if (!start) {
     return (
       <Container>
+        <StartHeader />
         <Form onSubmit={handleSetPlayers}>
-          <Input name="player1" placeholder="Player 1" />
-          <Input name="player2" placeholder="Player 2" />
-          <button type="submit">Vai</button>
+          <StartContent>
+            <PlayerBox>
+              <h2>PLAYER 1</h2>
+              <Input name="player1" placeholder="Player 1" />
+              <Input name="avatar" placeholder="avatar" />
+            </PlayerBox>
+            <button type="submit">COMEÇAR</button>
+            <PlayerBox>
+              <h2>PLAYER 2</h2>
+              <Input name="player1" placeholder="Player 1" />
+              <Input name="player2" placeholder="avatar" />
+            </PlayerBox>
+          </StartContent>
         </Form>
       </Container>
     );

@@ -15,7 +15,10 @@ export default createGlobalStyle`
   *, button, input {
     border: 0;
     background: none;
-    font-family: --apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Comfortaa', sans-serif;
+  }
+  html {
+    background: #009933;
   }
 
 `;
