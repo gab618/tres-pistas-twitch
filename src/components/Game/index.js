@@ -5,6 +5,7 @@ import myQuestions from '../../questions';
 
 import { Container, Tip, StartContent, PlayerBox } from './styles';
 import StartHeader from '../StartHeader';
+import ScoreHeader from '../ScoreHeader';
 
 function Game() {
   const [gameState, setGameState] = useState({
@@ -100,13 +101,13 @@ function Game() {
             <PlayerBox>
               <h2>PLAYER 1</h2>
               <Input name="player1" placeholder="Player 1" />
-              <Input name="avatar" placeholder="avatar" />
+              <Input name="avatar1" placeholder="avatar" />
             </PlayerBox>
             <button type="submit">COMEÇAR</button>
             <PlayerBox>
               <h2>PLAYER 2</h2>
-              <Input name="player1" placeholder="Player 1" />
-              <Input name="player2" placeholder="avatar" />
+              <Input name="player2" placeholder="Player 1" />
+              <Input name="avatar2" placeholder="avatar" />
             </PlayerBox>
           </StartContent>
         </Form>
@@ -116,6 +117,7 @@ function Game() {
 
   return (
     <Container>
+      <ScoreHeader gameState={gameState} />
       {isPlaying ? (
         <div>
           <h1>Questão mama</h1>
@@ -160,13 +162,6 @@ function Game() {
           </div>
         ))
       )}
-      <p>
-        {gameState.player1.name} - {gameState.player1.points}
-      </p>
-      <p>
-        {gameState.player2.name} - {gameState.player2.points}
-      </p>
-      <p>Chat - {gameState.chat.points}</p>
     </Container>
   );
 }
