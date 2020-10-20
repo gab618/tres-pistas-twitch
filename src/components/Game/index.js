@@ -196,7 +196,7 @@ function Game() {
                   </button>
                 );
               }
-              return;
+              return null;
             })}
           </QuestionBox>
           <QuestionBox>
