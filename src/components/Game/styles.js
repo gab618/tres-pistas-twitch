@@ -53,6 +53,39 @@ export const PlayerBox = styled.div`
   }
 `;
 
+export const Questions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 100px 100px 100px;
+`;
+
+export const QuestionBox = styled.div`
+  width: 480px;
+  height: 660px;
+  background: #fff;
+  border-radius: 50px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  text-align: center;
+  > button {
+    > svg {
+      width: 200px;
+      height: 200px;
+      color: #000;
+      fill: #cecece;
+      transition: fill 0.2s;
+
+      &:hover {
+        fill: yellow;
+        width: 200px;
+        height: 200px;
+      }
+    }
+  }
+`;
+
 export const Tip = styled.div`
   display: flex;
 `;

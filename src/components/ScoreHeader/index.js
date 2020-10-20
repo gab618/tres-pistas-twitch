@@ -20,7 +20,7 @@ const ScoreHeader = ({ gameState }) => {
         <ScoreBox>{gameState.chat.points}</ScoreBox>
         <Player>
           <ScoreBox>
-            <span>{gameState.player1.points}</span>
+            <span>{gameState.player2.points}</span>
           </ScoreBox>
           <img src={gameState.player2.avatar} alt="avatar2" />
         </Player>

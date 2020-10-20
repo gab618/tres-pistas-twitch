@@ -2,8 +2,16 @@ import React from 'react';
 import { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import myQuestions from '../../questions';
+import { FiMail } from 'react-icons/fi';
 
-import { Container, Tip, StartContent, PlayerBox } from './styles';
+import {
+  Container,
+  Tip,
+  StartContent,
+  PlayerBox,
+  QuestionBox,
+  Questions,
+} from './styles';
 import StartHeader from '../StartHeader';
 import ScoreHeader from '../ScoreHeader';
 
@@ -154,13 +162,42 @@ function Game() {
           </button>
         </div>
       ) : (
-        questions.map((question, index) => (
-          <div onClick={() => handleNewQuestion(question, index)} key={index}>
-            <p className={question.isAnswered ? 'is-answerd' : ''}>
-              Questão {index + 1}
-            </p>
-          </div>
-        ))
+        <Questions>
+          <QuestionBox>
+            {questions.map((question, index) => {
+              if (index < 6) {
+                return (
+                  <button
+                    onClick={() => handleNewQuestion(question, index)}
+                    key={index}
+                  >
+                    <FiMail
+                      className={question.isAnswered ? 'is-answerd' : ''}
+                    />
+                  </button>
+                );
+              }
+              return;
+            })}
+          </QuestionBox>
+          <QuestionBox>
+            {questions.map((question, index) => {
+              if (index >= 6) {
+                return (
+                  <button
+                    onClick={() => handleNewQuestion(question, index)}
+                    key={index}
+                  >
+                    <FiMail
+                      className={question.isAnswered ? 'is-answerd' : ''}
+                    />
+                  </button>
+                );
+              }
+              return;
+            })}
+          </QuestionBox>
+        </Questions>
       )}
     </Container>
   );
