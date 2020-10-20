@@ -6,7 +6,6 @@ import {
   FiMail,
   FiThumbsUp,
   FiArrowLeftCircle,
-  FiArrowRightCircle,
   FiMessageSquare,
   FiX,
 } from 'react-icons/fi';
