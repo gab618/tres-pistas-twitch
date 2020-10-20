@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import myQuestions from '../../questions';
-import { FiMail } from 'react-icons/fi';
+import myQuestions from '../../questions-template';
+import { FiMail, FiThumbsUp, FiArrowRightCircle } from 'react-icons/fi';
 
 import {
   Container,
@@ -11,6 +11,7 @@ import {
   PlayerBox,
   QuestionBox,
   Questions,
+  TipsContainer,
 } from './styles';
 import StartHeader from '../StartHeader';
 import ScoreHeader from '../ScoreHeader';
@@ -127,40 +128,58 @@ function Game() {
     <Container>
       <ScoreHeader gameState={gameState} />
       {isPlaying ? (
-        <div>
-          <h1>Questão mama</h1>
-          <p>
-            Vez de{' '}
-            {isPlayerOneTurn ? gameState.player1.name : gameState.player2.name}
-          </p>
+        <TipsContainer>
           <Tip>
-            <span>{currentQuestion.first}</span>
-            <button onClick={() => handleWinner(10)}>setWin</button>
-            <button onClick={handleNextTip}>next</button>
+            <span className="points-label">10</span>
+            <span className="tip-label">{currentQuestion.first}</span>
+            <button onClick={() => handleWinner(10)}>
+              <FiThumbsUp className="win-button" />
+            </button>
+            <button onClick={handleNextTip}>
+              <FiArrowRightCircle className="next-button" />
+            </button>
           </Tip>
 
-          {currentTip >= 1 && (
-            <Tip>
-              <span>{currentQuestion.second}</span>
-              <button onClick={() => handleWinner(9)}>setWin</button>
-              <button onClick={handleNextTip}>next</button>
-            </Tip>
-          )}
-          {currentTip >= 2 && (
-            <Tip>
-              <span>{currentQuestion.third}</span>
-              <button onClick={() => handleWinner(8)}>setWin</button>
-              <button onClick={handleNextTip}>next</button>
-            </Tip>
-          )}
-          {currentTip >= 3 && (
-            <button onClick={() => handleWinner(10)}>setWinChat</button>
-          )}
+          <Tip>
+            <span className="points-label">9</span>
+            <span className="tip-label">
+              {currentTip >= 1 ? currentQuestion.second : '???'}
+            </span>
+            {currentTip >= 1 && (
+              <>
+                <button onClick={() => handleWinner(9)}>
+                  <FiThumbsUp className="win-button" />
+                </button>
+                <button onClick={handleNextTip}>
+                  <FiArrowRightCircle className="next-button" />
+                </button>
+              </>
+            )}
+          </Tip>
+
+          <Tip>
+            <span className="points-label">8</span>
+            <span className="tip-label">
+              {currentTip >= 2 ? currentQuestion.third : '???'}
+            </span>
+            {currentTip >= 2 && (
+              <>
+                <button onClick={() => handleWinner(8)}>
+                  <FiThumbsUp className="win-button" />
+                </button>
+                <button onClick={handleNextTip}>
+                  <FiArrowRightCircle className="next-button" />
+                </button>
+              </>
+            )}
+          </Tip>
+
+          <button onClick={() => handleWinner(10)}>setWinChat</button>
 
           <button type="button" onClick={handleGoBackToQuestions}>
             Voltar
           </button>
-        </div>
+        </TipsContainer>
       ) : (
         <Questions>
           <QuestionBox>

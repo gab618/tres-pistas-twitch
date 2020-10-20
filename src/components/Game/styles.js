@@ -86,6 +86,70 @@ export const QuestionBox = styled.div`
   }
 `;
 
+export const TipsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-bottom: 50px;
+`;
+
 export const Tip = styled.div`
   display: flex;
+
+  & + & {
+    margin-top: 10px;
+  }
+
+  &:nth-child(2) {
+    margin-left: 256px;
+  }
+  &:nth-child(3) {
+    margin-left: 512px;
+  }
+
+  .points-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 80px;
+    border: 2px solid #fff;
+    border-radius: 0 25px;
+    background: linear-gradient(180deg, #23409d 0%, rgba(255, 255, 255, 0) 100%),
+      #1165d4;
+    border-radius: 0px 25px;
+    font-size: 64px;
+    color: #fff;
+    margin-right: 2px;
+  }
+
+  .tip-label {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+    padding: 0 16px;
+    width: 510px;
+    height: 80px;
+    background: linear-gradient(180deg, #091e72 0%, #0d4bc4 100%), #1165d4;
+    border: 2px solid #fff;
+    border-radius: 0px 50px 0px 15px;
+    margin-right: 16px;
+  }
+
+  > button {
+    width: 50px;
+    height: 50px;
+    > svg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .win-button {
+    fill: #44aa44;
+  }
+  .next-button {
+    color: #0d4bc4;
+  }
 `;
