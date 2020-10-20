@@ -7,7 +7,7 @@ const ScoreHeader = ({ gameState }) => {
     <Container>
       <HeaderBar>
         <span>{gameState.player1.name}</span>
-        {/* <span>chat</span> */}
+        <span></span>
         <span>{gameState.player2.name}</span>
       </HeaderBar>
       <AvatarBar>

@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import myQuestions from '../../questions-template';
-import { FiMail, FiThumbsUp, FiArrowRightCircle } from 'react-icons/fi';
+import {
+  FiMail,
+  FiThumbsUp,
+  FiArrowLeftCircle,
+  FiArrowRightCircle,
+  FiMessageSquare,
+  FiX,
+} from 'react-icons/fi';
 
 import {
   Container,
@@ -12,6 +19,7 @@ import {
   QuestionBox,
   Questions,
   TipsContainer,
+  BottomButtons,
 } from './styles';
 import StartHeader from '../StartHeader';
 import ScoreHeader from '../ScoreHeader';
@@ -22,14 +30,35 @@ function Game() {
     player2: { name: '', avatar: '', points: 0 },
     chat: { points: 0 },
   });
-  const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
-
   const [isPlaying, setIsPlaying] = useState(false);
   const [start, setStart] = useState(false);
   const [questions, setQuestions] = useState(myQuestions);
   const [currentQuestion, setCurrentQuestion] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentTip, setCurrentTip] = useState(0);
+  const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
+  const [currentPlayer, setCurrentPlayer] = useState('player1');
+
+  useEffect(() => {
+    switch (currentTip) {
+      case 1:
+        isPlayerOneTurn
+          ? setCurrentPlayer('player2')
+          : setCurrentPlayer('player1');
+        break;
+
+      case 0:
+      case 2:
+        isPlayerOneTurn
+          ? setCurrentPlayer('player1')
+          : setCurrentPlayer('player2');
+        break;
+
+      default:
+        setCurrentPlayer('chat');
+        break;
+    }
+  }, [currentTip, isPlayerOneTurn]);
 
   function handleSetPlayers({ player1, player2, avatar1, avatar2 }) {
     const newGameState = gameState;
@@ -60,41 +89,24 @@ function Game() {
   function handleWinner(points) {
     const newGameState = { ...gameState };
     let newQuestions = [...questions];
-    console.log(currentTip);
-    switch (currentTip) {
-      case 1:
-        if (isPlayerOneTurn) {
-          //dois
-          newGameState.player2.points += points;
-        } else {
-          //um
-          newGameState.player1.points += points;
-        }
-        break;
 
-      case 0:
-      case 2:
-        if (isPlayerOneTurn) {
-          //um
-          newGameState.player1.points += points;
-        } else {
-          //dois
-          newGameState.player2.points += points;
-        }
+    switch (currentPlayer) {
+      case 'player1':
+        newGameState.player1.points += points;
+        break;
+      case 'player2':
+        newGameState.player2.points += points;
         break;
 
       default:
-        newGameState.chat.points += points;
+        newGameState.chat.points += 10;
         break;
     }
 
     setGameState(newGameState);
-    //destativar a questão
-    // console.log(currentQuestion);
     newQuestions[currentQuestionIndex].isAnswered = true;
-    console.log(questions);
-    console.log(newQuestions);
     setQuestions(newQuestions);
+    console.log(questions);
 
     setCurrentTip(0);
     setIsPlayerOneTurn(!isPlayerOneTurn);
@@ -136,7 +148,7 @@ function Game() {
               <FiThumbsUp className="win-button" />
             </button>
             <button onClick={handleNextTip}>
-              <FiArrowRightCircle className="next-button" />
+              <FiX className="next-button" />
             </button>
           </Tip>
 
@@ -151,7 +163,7 @@ function Game() {
                   <FiThumbsUp className="win-button" />
                 </button>
                 <button onClick={handleNextTip}>
-                  <FiArrowRightCircle className="next-button" />
+                  <FiX className="next-button" />
                 </button>
               </>
             )}
@@ -168,53 +180,54 @@ function Game() {
                   <FiThumbsUp className="win-button" />
                 </button>
                 <button onClick={handleNextTip}>
-                  <FiArrowRightCircle className="next-button" />
+                  <FiX className="next-button" />
                 </button>
               </>
             )}
           </Tip>
-
-          <button onClick={() => handleWinner(10)}>setWinChat</button>
-
-          <button type="button" onClick={handleGoBackToQuestions}>
-            Voltar
-          </button>
+          <BottomButtons>
+            <span>{currentPlayer}</span>
+            <button type="button" onClick={handleGoBackToQuestions}>
+              <FiArrowLeftCircle className="back-button" />
+            </button>
+            {currentTip >= 3 && (
+              <button onClick={() => handleWinner(10)}>
+                <FiMessageSquare className="chat-button" />
+              </button>
+            )}
+          </BottomButtons>
         </TipsContainer>
       ) : (
         <Questions>
           <QuestionBox>
-            {questions.map((question, index) => {
-              if (index < 6) {
-                return (
-                  <button
-                    onClick={() => handleNewQuestion(question, index)}
-                    key={index}
-                  >
-                    <FiMail
-                      className={question.isAnswered ? 'is-answerd' : ''}
-                    />
-                  </button>
-                );
-              }
-              return null;
-            })}
+            {questions
+              .filter((question, index) => index < 6)
+              .map((question, index) => (
+                <button
+                  onClick={() => handleNewQuestion(question, index)}
+                  key={index}
+                  disabled={question.isAnswered}
+                  className={question.isAnswered ? 'is-answered' : ''}
+                >
+                  <FiMail />
+                </button>
+              ))}
           </QuestionBox>
+
           <QuestionBox>
-            {questions.map((question, index) => {
-              if (index >= 6) {
-                return (
-                  <button
-                    onClick={() => handleNewQuestion(question, index)}
-                    key={index}
-                  >
-                    <FiMail
-                      className={question.isAnswered ? 'is-answerd' : ''}
-                    />
-                  </button>
-                );
-              }
-              return;
-            })}
+            {questions
+
+              .map((question, index) => (
+                <button
+                  onClick={() => handleNewQuestion(question, index)}
+                  key={index}
+                  disabled={question.isAnswered}
+                  className={question.isAnswered ? 'is-answered' : ''}
+                >
+                  <FiMail />
+                </button>
+              ))
+              .filter((question, index) => index >= 6)}
           </QuestionBox>
         </Questions>
       )}

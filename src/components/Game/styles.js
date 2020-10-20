@@ -6,6 +6,10 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  button {
+    cursor: pointer;
+  }
 `;
 
 export const StartContent = styled.div`
@@ -84,10 +88,16 @@ export const QuestionBox = styled.div`
       }
     }
   }
+
+  .is-answered {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 export const TipsContainer = styled.div`
   display: flex;
+  width: 1230px;
   flex-direction: column;
   margin: 0 auto;
   margin-bottom: 50px;
@@ -147,9 +157,39 @@ export const Tip = styled.div`
   }
 
   .win-button {
-    fill: #44aa44;
+    fill: #eee;
   }
   .next-button {
-    color: #0d4bc4;
+    color: #fff;
+  }
+`;
+
+export const BottomButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+
+  > span {
+    color: #fff;
+    font-size: 14px;
+    margin-right: 8px;
+  }
+
+  > button {
+    width: 50px;
+    height: 50px;
+    > svg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .chat-button {
+    fill: #eee;
+  }
+  .back-button {
+    color: #fff;
+    fill: red;
   }
 `;
