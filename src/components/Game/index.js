@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
+import useSound from 'use-sound';
 import myQuestions from '../../questions';
 import {
   FiMail,
@@ -25,6 +26,8 @@ import {
 import StartHeader from '../StartHeader';
 import ScoreHeader from '../ScoreHeader';
 
+import correctSound from '../../assets/correct.mp3';
+
 function Game() {
   const [gameState, setGameState] = useState({
     player1: { name: '', avatar: '', points: 0 },
@@ -40,6 +43,8 @@ function Game() {
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
   const [currentPlayer, setCurrentPlayer] = useState('player1');
   const [showAnswer, setShowAnswer] = useState(false);
+
+  const [playCorrectSound] = useSound(correctSound);
 
   useEffect(() => {
     switch (currentTip) {
@@ -79,6 +84,7 @@ function Game() {
   }
 
   function handleShowAnswer() {
+    !showAnswer && playCorrectSound();
     setShowAnswer(!showAnswer);
   }
 
