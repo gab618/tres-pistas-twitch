@@ -105,6 +105,7 @@ export const TipsContainer = styled.div`
 
 export const Tip = styled.div`
   display: flex;
+  align-items: center;
 
   & + & {
     margin-top: 10px;
@@ -164,6 +165,24 @@ export const Tip = styled.div`
   }
 `;
 
+export const Answer = styled.div`
+  position: absolute;
+  right: -3px;
+  top: 40%;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 28px;
+  padding: 0 16px;
+  width: 510px;
+  height: 80px;
+  opacity: ${(props) => (props.display ? '1' : '0')};
+  transition: opacity 1s;
+  background: linear-gradient(180deg, #731314 0%, #a21e22 100%);
+  border: 2px solid #fff;
+  border-radius: 50px 0px 0px 0px;
+`;
+
 export const BottomButtons = styled.div`
   display: flex;
   justify-content: center;
@@ -190,6 +209,5 @@ export const BottomButtons = styled.div`
   }
   .back-button {
     color: #fff;
-    fill: red;
   }
 `;

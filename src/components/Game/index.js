@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import myQuestions from '../../questions-template';
+import myQuestions from '../../questions';
 import {
   FiMail,
   FiThumbsUp,
-  FiArrowLeftCircle,
+  FiEye,
+  FiEyeOff,
   FiMessageSquare,
   FiX,
 } from 'react-icons/fi';
@@ -19,6 +20,7 @@ import {
   Questions,
   TipsContainer,
   BottomButtons,
+  Answer,
 } from './styles';
 import StartHeader from '../StartHeader';
 import ScoreHeader from '../ScoreHeader';
@@ -37,6 +39,7 @@ function Game() {
   const [currentTip, setCurrentTip] = useState(0);
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
   const [currentPlayer, setCurrentPlayer] = useState('player1');
+  const [showAnswer, setShowAnswer] = useState(false);
 
   useEffect(() => {
     switch (currentTip) {
@@ -75,9 +78,8 @@ function Game() {
     setIsPlaying(true);
   }
 
-  function handleGoBackToQuestions() {
-    setIsPlayerOneTurn(!isPlayerOneTurn);
-    setIsPlaying(false);
+  function handleShowAnswer() {
+    setShowAnswer(!showAnswer);
   }
 
   function handleNextTip() {
@@ -110,6 +112,7 @@ function Game() {
     setCurrentTip(0);
     setIsPlayerOneTurn(!isPlayerOneTurn);
     setIsPlaying(false);
+    setShowAnswer(false);
   }
 
   if (!start) {
@@ -143,11 +146,11 @@ function Game() {
           <Tip>
             <span className="points-label">10</span>
             <span className="tip-label">{currentQuestion.first}</span>
-            <button onClick={() => handleWinner(10)}>
-              <FiThumbsUp className="win-button" />
-            </button>
             <button onClick={handleNextTip}>
               <FiX className="next-button" />
+            </button>
+            <button onClick={() => handleWinner(10)}>
+              <FiThumbsUp className="win-button" />
             </button>
           </Tip>
 
@@ -158,11 +161,11 @@ function Game() {
             </span>
             {currentTip >= 1 && (
               <>
-                <button onClick={() => handleWinner(9)}>
-                  <FiThumbsUp className="win-button" />
-                </button>
                 <button onClick={handleNextTip}>
                   <FiX className="next-button" />
+                </button>
+                <button onClick={() => handleWinner(9)}>
+                  <FiThumbsUp className="win-button" />
                 </button>
               </>
             )}
@@ -175,19 +178,23 @@ function Game() {
             </span>
             {currentTip >= 2 && (
               <>
-                <button onClick={() => handleWinner(8)}>
-                  <FiThumbsUp className="win-button" />
-                </button>
                 <button onClick={handleNextTip}>
                   <FiX className="next-button" />
+                </button>
+                <button onClick={() => handleWinner(8)}>
+                  <FiThumbsUp className="win-button" />
                 </button>
               </>
             )}
           </Tip>
           <BottomButtons>
             <span>{currentPlayer}</span>
-            <button type="button" onClick={handleGoBackToQuestions}>
-              <FiArrowLeftCircle className="back-button" />
+            <button type="button" onClick={handleShowAnswer}>
+              {showAnswer ? (
+                <FiEyeOff className="back-button" />
+              ) : (
+                <FiEye className="back-button" />
+              )}
             </button>
             {currentTip >= 3 && (
               <button onClick={() => handleWinner(10)}>
@@ -195,6 +202,7 @@ function Game() {
               </button>
             )}
           </BottomButtons>
+          <Answer display={showAnswer}>{currentQuestion.answer}</Answer>
         </TipsContainer>
       ) : (
         <Questions>
