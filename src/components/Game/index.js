@@ -35,6 +35,7 @@ function Game() {
     chat: { points: 0 },
   });
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [start, setStart] = useState(false);
   const [questions, setQuestions] = useState(myQuestions);
   const [currentQuestion, setCurrentQuestion] = useState({});
@@ -66,6 +67,19 @@ function Game() {
         break;
     }
   }, [currentTip, isPlayerOneTurn]);
+
+  useEffect(() => {
+    const answeredQuestions = questions.reduce(function (
+      previousValue,
+      currentObject
+    ) {
+      return previousValue + (currentObject.isAnswered ? 1 : 0);
+    },
+    0);
+    if (answeredQuestions === 12) {
+      setIsFinished(true);
+    }
+  }, [questions]);
 
   function handleSetPlayers({ player1, player2, avatar1, avatar2 }) {
     const newGameState = gameState;
@@ -113,7 +127,6 @@ function Game() {
     setGameState(newGameState);
     newQuestions[currentQuestionIndex].isAnswered = true;
     setQuestions(newQuestions);
-    console.log(questions);
 
     setCurrentTip(0);
     setIsPlayerOneTurn(!isPlayerOneTurn);
@@ -140,6 +153,15 @@ function Game() {
             </PlayerBox>
           </StartContent>
         </Form>
+      </Container>
+    );
+  }
+
+  if (isFinished) {
+    return (
+      <Container>
+        <ScoreHeader gameState={gameState} />
+        <h1>acabou</h1>
       </Container>
     );
   }
@@ -208,7 +230,7 @@ function Game() {
               </button>
             )}
           </BottomButtons>
-          <Answer display={showAnswer}>{currentQuestion.answer}</Answer>
+          <Answer display={showAnswer ? 1 : 0}>{currentQuestion.answer}</Answer>
         </TipsContainer>
       ) : (
         <Questions>
