@@ -27,6 +27,7 @@ import StartHeader from '../StartHeader';
 import ScoreHeader from '../ScoreHeader';
 
 import correctSound from '../../assets/correct.mp3';
+import EndGame from '../EndGame';
 
 function Game() {
   const [gameState, setGameState] = useState({
@@ -161,7 +162,7 @@ function Game() {
     return (
       <Container>
         <ScoreHeader gameState={gameState} />
-        <h1>acabou</h1>
+        <EndGame gameState={gameState} />
       </Container>
     );
   }
